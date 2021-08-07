@@ -1,0 +1,9 @@
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/CMakeFiles/Shesh-Besh_Game.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/CMakeFiles/edit_cache.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/CMakeFiles/rebuild_cache.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/include/CMakeFiles/edit_cache.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/include/CMakeFiles/rebuild_cache.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/src/CMakeFiles/edit_cache.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/src/CMakeFiles/rebuild_cache.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/resources/CMakeFiles/edit_cache.dir
+C:/Users/sharonlevi/source/repos/Shesh-Besh_Game/out/build/x64-Debug (default)/resources/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,24 @@
+# ninja log v5
+2	1570	650047910	CMakeFiles/Shesh-Besh_Game.dir/src/main.cpp.obj	6329c04e4b661c0c
+21	2672	649958995	CMakeFiles/Shesh-Besh_Game.dir/src/Checker.cpp.obj	77d1df8119f8e6d7
+26	1302	648915603	CMakeFiles/Shesh-Besh_Game.dir/src/Board.cpp.obj	3cf4c0490cbba6a7
+13	2003	650047852	CMakeFiles/Shesh-Besh_Game.dir/src/Textures.cpp.obj	7ca9eb70c04dc0f0
+889	1084	650046414	Shesh-Besh_Game.exe	360312cc80f3966e
+16	1451	650047910	CMakeFiles/Shesh-Besh_Game.dir/src/Point.cpp.obj	efb6d0cc4036b334
+5	1566	650047910	CMakeFiles/Shesh-Besh_Game.dir/src/Manager.cpp.obj	425cf84f13372bca
+9	1529	650047910	CMakeFiles/Shesh-Besh_Game.dir/src/Player.cpp.obj	2bba001030d84cc2
+28	1475	650047910	CMakeFiles/Shesh-Besh_Game.dir/src/Character.cpp.obj	d74ca23dd1075351
+20	1485	650047910	CMakeFiles/Shesh-Besh_Game.dir/src/Opponent.cpp.obj	429b76a3a9edb3b6
+34	1853	650047852	CMakeFiles/Shesh-Besh_Game.dir/src/Dice.cpp.obj	df6b07dedcabb45f
+8	1644	650048242	CMakeFiles/Shesh-Besh_Game.dir/src/Player.cpp.obj	2bba001030d84cc2
+15	1645	650048242	CMakeFiles/Shesh-Besh_Game.dir/src/Checker.cpp.obj	77d1df8119f8e6d7
+19	1646	650048242	CMakeFiles/Shesh-Besh_Game.dir/src/Opponent.cpp.obj	429b76a3a9edb3b6
+23	1647	650048242	CMakeFiles/Shesh-Besh_Game.dir/src/Character.cpp.obj	d74ca23dd1075351
+25	1712	650048691	CMakeFiles/Shesh-Besh_Game.dir/src/Opponent.cpp.obj	429b76a3a9edb3b6
+20	1731	650048691	CMakeFiles/Shesh-Besh_Game.dir/src/Character.cpp.obj	d74ca23dd1075351
+16	1734	650048691	CMakeFiles/Shesh-Besh_Game.dir/src/Player.cpp.obj	2bba001030d84cc2
+13	1737	650048691	CMakeFiles/Shesh-Besh_Game.dir/src/Checker.cpp.obj	77d1df8119f8e6d7
+10	1740	650048691	CMakeFiles/Shesh-Besh_Game.dir/src/Point.cpp.obj	efb6d0cc4036b334
+2	1786	650048691	CMakeFiles/Shesh-Besh_Game.dir/src/Manager.cpp.obj	425cf84f13372bca
+6	1864	650048691	CMakeFiles/Shesh-Besh_Game.dir/src/main.cpp.obj	6329c04e4b661c0c
+1864	2546	650048692	Shesh-Besh_Game.exe	360312cc80f3966e

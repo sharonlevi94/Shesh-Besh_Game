@@ -1,0 +1,1 @@
+target_include_directories (Shesh-Besh_Game PRIVATE ${CMAKE_CURRENT_LIST_DIR})
