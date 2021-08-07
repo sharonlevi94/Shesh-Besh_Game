@@ -186,7 +186,7 @@ void Manager::movePlayer(int fromPoint, int toPoint)
 
 void Manager::moveAI(int fromPoint, int toPoint)
 {
-
+	//TODO
 }
 
 //=============================================================================
