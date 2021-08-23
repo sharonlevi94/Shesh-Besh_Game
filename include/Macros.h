@@ -1,7 +1,7 @@
 #pragma once
 //general:
 enum PLAYER_COLOR { WHITE, BLACK, NO_COLOR };
-enum DICE_STATE { ROLL, PLAY, AI_TURN, DONE};
+enum DICE_STATE { ROLL, PLAY, AI_TURN, DONE, START, ROLL_START};
 enum DIRECTION { RIGHT, LEFT};
 constexpr auto FRAME_LIMIT = 60;
 constexpr auto NUM_OF_POINTS = 24;

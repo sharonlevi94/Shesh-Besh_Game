@@ -40,4 +40,5 @@ private:
 	void movePlayer(int, int);
 	void moveAI(int, int);
 	void eatChecker(Checker*);
+	void firstRoll();
 };

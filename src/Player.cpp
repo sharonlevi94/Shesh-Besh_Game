@@ -41,7 +41,6 @@ void Player::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 							dice->setDouble(false);
 							diceResult.first = diceValue;
 							diceResult.second = diceValue;
-							manager.moveChecker(pointClicked, diceResult, RIGHT);
 						}
 						else {
 							dice->setState(ROLL);

@@ -33,7 +33,10 @@ void Manager::run()
 				break;
 			case sf::Event::MouseButtonReleased:
 				if (m_dice.isClickedOn(m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y })))
-					m_player.play(&m_dice, m_window, *this);
+					if (m_dice.getState() == ROLL_START)
+						firstRoll();
+					else
+						m_player.play(&m_dice, m_window, *this);
 			}
 		}
 	}
@@ -197,15 +200,30 @@ void Manager::eatChecker(Checker* checker)
 
 //=============================================================================
 
+void Manager::firstRoll()
+{
+	m_dice.setState(START);
+	std::pair<int, int> diceResult = m_dice.roll();
+	while (diceResult.first == diceResult.second)
+		diceResult = m_dice.roll();
+	if (diceResult.first > diceResult.second)
+		m_dice.setState(ROLL);
+	else
+		m_dice.setState(ROLL); //need change to AI_TURN
+}
+
+//=============================================================================
+
 void Manager::moveChecker(int fromPoint, std::pair<int, int>& diceResult, DIRECTION direction)
 {
 	int maxValue = std::max(diceResult.first, diceResult.second);
 	int minValue = std::min(diceResult.first, diceResult.second);
+
 	if (isMovePossible(fromPoint, maxValue, direction)) {
 		if (direction == RIGHT)
 			movePlayer(fromPoint, fromPoint - maxValue);
 		else
-			moveAI(fromPoint, fromPoint + maxValue);
+			moveAI(fromPoint, fromPoint + maxValue);    
 		m_dice.updateResult(maxValue, diceResult);
 	}
 	else if (isMovePossible(fromPoint, minValue, direction)) {
@@ -214,5 +232,11 @@ void Manager::moveChecker(int fromPoint, std::pair<int, int>& diceResult, DIRECT
 		else
 			moveAI(fromPoint, fromPoint + minValue);
 		m_dice.updateResult(minValue, diceResult);
+	}
+	else {
+		if (m_dice.getState() == PLAY)
+			m_dice.setState(ROLL); //need change to AI_TURN
+		else
+			m_dice.setState(ROLL);
 	}
 }

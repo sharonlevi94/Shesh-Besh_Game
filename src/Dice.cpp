@@ -4,7 +4,7 @@
 
 Dice::Dice()
 {
-	m_state = ROLL;
+	m_state = ROLL_START;
 
 	m_rollButton.setPosition({ BUTTON_POS_X, BUTTON_POS_Y });
 	m_rollButton.setFillColor(sf::Color::White);
@@ -26,6 +26,11 @@ void Dice::draw(sf::RenderWindow& window)
 {
 	switch (m_state) {
 	case ROLL:
+		window.draw(m_rollButton);
+		window.draw(m_rollResult.first);
+		window.draw(m_rollResult.second);
+		break;
+	case ROLL_START:
 		window.draw(m_rollButton);
 		break;
 	case DONE:
@@ -61,9 +66,12 @@ std::pair<int, int> Dice::roll()
 		m_rollResult.second.setPosition({ HOME_LEFT + 50,  BUTTON_POS_Y });
 		break;
 	case AI_TURN:
-		m_rollResult.first.setPosition({ LEFT_CORNER,BUTTON_POS_Y });
-		m_rollResult.second.setPosition({ LEFT_CORNER + 50,  BUTTON_POS_Y });
+		m_rollResult.first.setPosition({ LEFT_CORNER + DIFF * 3,BUTTON_POS_Y });
+		m_rollResult.second.setPosition({ LEFT_CORNER + DIFF * 3 + 50,  BUTTON_POS_Y });
 		break;
+	case START:
+		m_rollResult.first.setPosition({ HOME_LEFT,BUTTON_POS_Y });
+		m_rollResult.second.setPosition({ LEFT_CORNER + DIFF * 5 ,  BUTTON_POS_Y });
 	}
 	return diceResult;
 }
