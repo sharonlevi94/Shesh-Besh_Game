@@ -124,6 +124,15 @@ build CMakeFiles\Shesh-Besh_Game.dir\src\Dice.cpp.obj: CXX_COMPILER__Shesh-Besh_
   TARGET_COMPILE_PDB = CMakeFiles\Shesh-Besh_Game.dir\
   TARGET_PDB = Shesh-Besh_Game.pdb
 
+build CMakeFiles\Shesh-Besh_Game.dir\src\Move.cpp.obj: CXX_COMPILER__Shesh-Besh_Game_Debug ..\..\..\src\Move.cpp || cmake_object_order_depends_target_Shesh-Besh_Game
+  DEFINES = -DSFML_STATIC
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /permissive- -std:c++17
+  INCLUDES = -I..\..\..\include -IC:\SFML\SFML-2.5.1\include
+  OBJECT_DIR = CMakeFiles\Shesh-Besh_Game.dir
+  OBJECT_FILE_DIR = CMakeFiles\Shesh-Besh_Game.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\Shesh-Besh_Game.dir\
+  TARGET_PDB = Shesh-Besh_Game.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Shesh-Besh_Game
@@ -132,7 +141,7 @@ build CMakeFiles\Shesh-Besh_Game.dir\src\Dice.cpp.obj: CXX_COMPILER__Shesh-Besh_
 #############################################
 # Link the executable Shesh-Besh_Game.exe
 
-build Shesh-Besh_Game.exe: CXX_EXECUTABLE_LINKER__Shesh-Besh_Game_Debug CMakeFiles\Shesh-Besh_Game.dir\src\main.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Manager.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Textures.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Checker.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Point.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Player.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Opponent.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Character.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Dice.cpp.obj | C$:\SFML\SFML-2.5.1\lib\sfml-graphics-s-d.lib C$:\SFML\SFML-2.5.1\lib\sfml-audio-s-d.lib C$:\SFML\SFML-2.5.1\lib\sfml-main-d.lib C$:\SFML\SFML-2.5.1\lib\sfml-window-s-d.lib C$:\SFML\SFML-2.5.1\lib\freetype.lib C$:\SFML\SFML-2.5.1\lib\openal32.lib C$:\SFML\SFML-2.5.1\lib\sfml-system-s-d.lib C$:\SFML\SFML-2.5.1\lib\vorbisfile.lib C$:\SFML\SFML-2.5.1\lib\vorbisenc.lib C$:\SFML\SFML-2.5.1\lib\vorbis.lib C$:\SFML\SFML-2.5.1\lib\ogg.lib C$:\SFML\SFML-2.5.1\lib\flac.lib
+build Shesh-Besh_Game.exe: CXX_EXECUTABLE_LINKER__Shesh-Besh_Game_Debug CMakeFiles\Shesh-Besh_Game.dir\src\main.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Manager.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Textures.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Checker.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Point.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Player.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Opponent.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Character.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Dice.cpp.obj CMakeFiles\Shesh-Besh_Game.dir\src\Move.cpp.obj | C$:\SFML\SFML-2.5.1\lib\sfml-graphics-s-d.lib C$:\SFML\SFML-2.5.1\lib\sfml-audio-s-d.lib C$:\SFML\SFML-2.5.1\lib\sfml-main-d.lib C$:\SFML\SFML-2.5.1\lib\sfml-window-s-d.lib C$:\SFML\SFML-2.5.1\lib\freetype.lib C$:\SFML\SFML-2.5.1\lib\openal32.lib C$:\SFML\SFML-2.5.1\lib\sfml-system-s-d.lib C$:\SFML\SFML-2.5.1\lib\vorbisfile.lib C$:\SFML\SFML-2.5.1\lib\vorbisenc.lib C$:\SFML\SFML-2.5.1\lib\vorbis.lib C$:\SFML\SFML-2.5.1\lib\ogg.lib C$:\SFML\SFML-2.5.1\lib\flac.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = C:\SFML\SFML-2.5.1\lib\sfml-graphics-s-d.lib  C:\SFML\SFML-2.5.1\lib\sfml-audio-s-d.lib  C:\SFML\SFML-2.5.1\lib\sfml-main-d.lib  C:\SFML\SFML-2.5.1\lib\sfml-window-s-d.lib  gdi32.lib  OpenGL32.lib  C:\SFML\SFML-2.5.1\lib\freetype.lib  C:\SFML\SFML-2.5.1\lib\openal32.lib  C:\SFML\SFML-2.5.1\lib\sfml-system-s-d.lib  winmm.lib  C:\SFML\SFML-2.5.1\lib\vorbisfile.lib  C:\SFML\SFML-2.5.1\lib\vorbisenc.lib  C:\SFML\SFML-2.5.1\lib\vorbis.lib  C:\SFML\SFML-2.5.1\lib\ogg.lib  C:\SFML\SFML-2.5.1\lib\flac.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

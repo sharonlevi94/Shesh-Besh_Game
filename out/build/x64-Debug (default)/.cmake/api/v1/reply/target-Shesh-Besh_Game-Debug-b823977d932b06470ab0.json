@@ -110,7 +110,8 @@
 				5,
 				6,
 				7,
-				8
+				8,
+				9
 			]
 		}
 	],
@@ -218,7 +219,8 @@
 				5,
 				6,
 				7,
-				8
+				8,
+				9
 			]
 		}
 	],
@@ -276,6 +278,12 @@
 			"backtrace" : 6,
 			"compileGroupIndex" : 0,
 			"path" : "src/Dice.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "src/Move.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

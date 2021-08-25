@@ -19,7 +19,9 @@ public:
 	void draw();
 	int getPointContainsClick(const sf::Vector2f&);
 	Point* getPoint(int)const;
-	void moveChecker(int, std::pair<int, int>&, DIRECTION);
+	void movePlayer(int, std::pair<int, int>&);
+	bool isMovePossible(int, int, DIRECTION);
+	void updateBoard(int, int, PLAYER_COLOR);
 	//========================= private section ==============================
 private:
 	sf::RenderWindow m_window;
@@ -36,9 +38,6 @@ private:
 	void setCheckers();
 	void setPlayerCheckers();
 	void setAICheckers();
-	bool isMovePossible(int, int, DIRECTION);
-	void movePlayer(int, int);
-	void moveAI(int, int);
 	void eatChecker(Checker*);
 	void firstRoll();
 };

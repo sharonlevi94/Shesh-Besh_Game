@@ -149,19 +149,22 @@ Point* Manager::getPoint(int wantedIndex) const
 	return m_points[wantedIndex].get();
 }
 //=============================================================================
-bool Manager::isMovePossible(int pointClicked, int toPoint, DIRECTION direction)
+bool Manager::isMovePossible(int source, int step, DIRECTION direction)
 {
+	if (step == 0)
+		return false;
+
 	switch (direction) {
 	case RIGHT:
-		if (pointClicked - toPoint >= 0)
-			if (m_points[pointClicked - toPoint].get()->getColor() == m_points[pointClicked].get()->getColor() ||
-				m_points[pointClicked - toPoint].get()->getCheckersNumber() <= 1)
+		if (source - step >= 0)
+			if (m_points[source - step].get()->getColor() == m_points[source].get()->getColor() ||
+				m_points[source - step].get()->getCheckersNumber() <= 1)
 				return true;
 		break;
 	case LEFT:
-		if (pointClicked + toPoint >= m_points.size())
-			if (m_points[pointClicked + toPoint].get()->getColor() == m_points[pointClicked].get()->getColor() ||
-				m_points[pointClicked + toPoint].get()->getCheckersNumber() <= 1)
+		if (source + step >= m_points.size())
+			if (m_points[source + step].get()->getColor() == m_points[source].get()->getColor() ||
+				m_points[source + step].get()->getCheckersNumber() <= 1)
 				return true;
 		break;
 	default: 
@@ -170,7 +173,7 @@ bool Manager::isMovePossible(int pointClicked, int toPoint, DIRECTION direction)
 	return false;
 }
 //=============================================================================
-void Manager::movePlayer(int fromPoint, int toPoint)
+void Manager::updateBoard(int fromPoint, int toPoint, PLAYER_COLOR color)
 {
 	Checker* p2Checker = m_points[fromPoint].get()->getChecker(m_points[fromPoint].get()->getCheckersNumber() - 1);
 	m_points[fromPoint].get()->del(p2Checker);
@@ -183,15 +186,8 @@ void Manager::movePlayer(int fromPoint, int toPoint)
 	p2Checker->updatePos(m_points[toPoint].get()->getPosition(), m_points[toPoint].get()->getCheckersNumber(), toPoint);
 
 	m_points[toPoint].get()->add(p2Checker);
-	m_points[toPoint].get()->setColor(WHITE);
+	m_points[toPoint].get()->setColor(color);
 }
-//=============================================================================
-
-void Manager::moveAI(int fromPoint, int toPoint)
-{
-	//TODO
-}
-
 //=============================================================================
 
 void Manager::eatChecker(Checker* checker)
@@ -209,34 +205,26 @@ void Manager::firstRoll()
 	if (diceResult.first > diceResult.second)
 		m_dice.setState(ROLL);
 	else
-		m_dice.setState(ROLL); //need change to AI_TURN
+		m_dice.setState(AI_TURN); 
 }
 
 //=============================================================================
 
-void Manager::moveChecker(int fromPoint, std::pair<int, int>& diceResult, DIRECTION direction)
+void Manager::movePlayer(int fromPoint, std::pair<int, int>& diceResult)
 {
 	int maxValue = std::max(diceResult.first, diceResult.second);
 	int minValue = std::min(diceResult.first, diceResult.second);
+	int step = 0;
 
-	if (isMovePossible(fromPoint, maxValue, direction)) {
-		if (direction == RIGHT)
-			movePlayer(fromPoint, fromPoint - maxValue);
-		else
-			moveAI(fromPoint, fromPoint + maxValue);    
-		m_dice.updateResult(maxValue, diceResult);
-	}
-	else if (isMovePossible(fromPoint, minValue, direction)) {
-		if (direction == RIGHT)
-			movePlayer(fromPoint, fromPoint - minValue);
-		else
-			moveAI(fromPoint, fromPoint + minValue);
-		m_dice.updateResult(minValue, diceResult);
-	}
+	if (isMovePossible(fromPoint, maxValue, RIGHT)) 
+		step = maxValue;
+	
+	else if (isMovePossible(fromPoint, minValue, RIGHT)) 
+		step = minValue;
 	else {
-		if (m_dice.getState() == PLAY)
-			m_dice.setState(ROLL); //need change to AI_TURN
-		else
-			m_dice.setState(ROLL);
+		m_dice.setState(AI_TURN);
+		return;
 	}
+	updateBoard(fromPoint, fromPoint - step, WHITE);
+	m_dice.updateResult(step, diceResult);
 }

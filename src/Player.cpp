@@ -35,7 +35,7 @@ void Player::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 				int pointClicked = manager.getPointContainsClick(window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y }));
 				if (pointClicked != NO_POINT_CLICKED) {
 					if (diceResult.first > 0 || diceResult.second > 0)
-						manager.moveChecker(pointClicked, diceResult, RIGHT);
+						manager.movePlayer(pointClicked, diceResult);
 					if (diceResult.first == 0 && diceResult.second == 0) {
 						if (dice->isDouble()) {
 							dice->setDouble(false);

@@ -23,6 +23,9 @@ void Point::del(Checker* wanted_checker)
 			m_checkers.erase(m_checkers.begin() + i);
 			break;
 		}
+
+	if (m_checkers.size() == 0)
+		m_color = NO_COLOR;
 }
 //-----------------------------------------------------------------------------
 void Point::draw(sf::RenderWindow& window)
