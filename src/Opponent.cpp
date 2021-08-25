@@ -172,14 +172,53 @@ std::vector<Move*> Opponent::chooseBestMove()
 bool Opponent::isEatable(Manager* manager, int point_i)
 {
 	float prob = 0;
-	int i = point_i + 1;
+	int dice_value = 1;
 
-	while (i < NUM_OF_POINTS && i < i + NUM_OF_OPTIONS) {
-		switch (i)
-		{
-		default:
-			break;
+	for (int i = point_i ; i < NUM_OF_POINTS && i < i + NUM_OF_OPTIONS; i++) {
+		if (manager->getPoint(i)->getColor() == WHITE) {
+			switch (dice_value)
+			{
+			case 1:
+				prob += ONE;
+				break;
+			case 2:
+				prob += TWO;
+				break;
+			case 3:
+				prob += THREE;
+				break;
+			case 4:
+				prob += FOUR;
+				break;
+			case 5:
+				prob += FIVE;
+				break;
+			case 6:
+				prob += SIX;
+				break;
+			case 7:
+				prob += SEVEN;
+				break;
+			case 8:
+				prob += EIGHT;
+				break;
+			case 9:
+				prob += NINE;
+				break;
+			case 10:
+				prob += TEN;
+				break;
+			case 11:
+				prob += ELEVEN;
+				break;
+			case 12:
+				prob += TWELVE;
+				break;
+			default:
+				break;
+			}
 		}
+		dice_value++;
 	}
 
 	if(prob > PROB_LIMIT)
