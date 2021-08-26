@@ -35,6 +35,8 @@ void Dice::draw(sf::RenderWindow& window)
 		break;
 	case DONE:
 		window.draw(m_doneButton);
+		window.draw(m_rollResult.first);
+		window.draw(m_rollResult.second);
 		break;
 	default:
 		window.draw(m_rollResult.first);
@@ -88,7 +90,14 @@ DICE_STATE Dice::getState() const
 
 bool Dice::isClickedOn(sf::Vector2f pos)
 {
-	return m_rollButton.getGlobalBounds().contains(pos);
+	switch (m_state) {
+	case ROLL_START:
+		return m_rollButton.getGlobalBounds().contains(pos);
+	case ROLL:
+		return m_rollButton.getGlobalBounds().contains(pos);
+	case DONE:
+		return m_doneButton.getGlobalBounds().contains(pos);
+	}
 }
 
 void Dice::setDouble(bool is_double)

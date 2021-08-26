@@ -2,7 +2,7 @@
 #include "Manager.h"
 #include <array>
 #include <algorithm>
-
+#include <iostream>
 //-----------------------------------------------------------------------------
 
 Opponent::Opponent(PLAYER_COLOR color) 
@@ -24,6 +24,11 @@ Opponent::Opponent(PLAYER_COLOR color)
 void Opponent::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 {
 	std::pair<int, int> result = dice->roll();
+
+	window.clear();
+	manager.draw();
+	window.display();
+
 	generateMoves(result, &manager);
 	calcScores(m_sepMoves, &manager);
 	calcScores(m_seqMoves, &manager);
@@ -41,17 +46,17 @@ void Opponent::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 
 void Opponent::generateMoves(std::pair<int, int> result, Manager* manager) {
 	bool both = false;
-	for (int i = 0; i < NUM_OF_POINTS; i++) 
+	for (int i = 0 ; i < NUM_OF_POINTS; i++) {
 		if (manager->getPoint(i)->getColor() == BLACK) {
-			if (manager->isMovePossible(i, i + result.first, LEFT)) {
+			if (manager->isMovePossible(i, result.first, LEFT)) {
 				m_sepMoves.push_back(std::make_unique<Move>(i, i + result.first));
-				if (manager->isMovePossible(i + result.first, i + result.first + result.second, LEFT))
+				if (manager->isMovePossible(i , result.second + result.first, LEFT))
 					both = true;
 			}
 
-			if (manager->isMovePossible(i, i + result.second, LEFT)) {
+			if (manager->isMovePossible(i, result.second, LEFT)) {
 				m_sepMoves.push_back(std::make_unique<Move>(i, i + result.second));
-				if (manager->isMovePossible(i + result.second, i + result.first + result.second, LEFT))
+				if (manager->isMovePossible(i , result.first + result.second, LEFT))
 					both = true;
 			}
 
@@ -60,6 +65,7 @@ void Opponent::generateMoves(std::pair<int, int> result, Manager* manager) {
 				both = false;
 			}
 		}
+	}
 }
 
 //-----------------------------------------------------------------------------

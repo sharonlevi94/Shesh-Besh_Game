@@ -32,11 +32,22 @@ void Manager::run()
 				m_dice.mousePassOnButton(m_window.mapPixelToCoords({event.mouseMove.x, event.mouseMove.y}));
 				break;
 			case sf::Event::MouseButtonReleased:
-				if (m_dice.isClickedOn(m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y })))
-					if (m_dice.getState() == ROLL_START)
+				switch (m_dice.getState()) {
+				case ROLL_START:
+					if (m_dice.isClickedOn(m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y })))
 						firstRoll();
-					else
-						m_player.play(&m_dice, m_window, *this);
+					break;
+				case ROLL:
+					if (m_dice.isClickedOn(m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y })))
+							m_player.play(&m_dice, m_window, *this);
+					break;
+				case DONE:
+					if (m_dice.isClickedOn(m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y }))) {
+						m_dice.setState(AI_TURN);
+						m_AI.play(&m_dice, m_window, *this);
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -158,13 +169,13 @@ bool Manager::isMovePossible(int source, int step, DIRECTION direction)
 	case RIGHT:
 		if (source - step >= 0)
 			if (m_points[source - step].get()->getColor() == m_points[source].get()->getColor() ||
-				m_points[source - step].get()->getCheckersNumber() <= 1)
+				m_points[source - step].get()->getCheckersNumber() < BLOCK)
 				return true;
 		break;
 	case LEFT:
-		if (source + step >= m_points.size())
+		if (source + step < NUM_OF_POINTS)
 			if (m_points[source + step].get()->getColor() == m_points[source].get()->getColor() ||
-				m_points[source + step].get()->getCheckersNumber() <= 1)
+				m_points[source + step].get()->getCheckersNumber() < BLOCK)
 				return true;
 		break;
 	default: 
@@ -205,7 +216,7 @@ void Manager::firstRoll()
 	if (diceResult.first > diceResult.second)
 		m_dice.setState(ROLL);
 	else
-		m_dice.setState(AI_TURN); 
+		m_dice.setState(DONE); 
 }
 
 //=============================================================================

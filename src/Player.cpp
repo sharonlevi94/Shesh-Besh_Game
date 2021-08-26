@@ -43,7 +43,7 @@ void Player::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 							diceResult.second = diceValue;
 						}
 						else {
-							dice->setState(ROLL);
+							dice->setState(DONE);
 							break;
 						}
 					}
