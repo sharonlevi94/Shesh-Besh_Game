@@ -3,6 +3,7 @@
 #include <array>
 #include <algorithm>
 #include <iostream>
+#include <Windows.h>
 //-----------------------------------------------------------------------------
 
 Opponent::Opponent(PLAYER_COLOR color) 
@@ -30,12 +31,22 @@ void Opponent::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 	window.display();
 
 	generateMoves(result, &manager);
-	calcScores(m_sepMoves, &manager);
-	calcScores(m_seqMoves, &manager);
-	std::vector<Move*> chosenMoves = chooseBestMove();
 
-	for (auto& move : chosenMoves) 
-		manager.updateBoard(move->getFrom(), move->getTo(), BLACK);
+	if (m_sepMoves.size() > 0 && m_seqMoves.size() > 0) {
+		calcScores(m_sepMoves, &manager);
+		calcScores(m_seqMoves, &manager);
+
+		std::vector<Move*> chosenMoves = chooseBestMove(result);
+
+		for (auto& move : chosenMoves) {
+			Sleep(THINKING_TIME);
+			if(move != nullptr)
+				manager.updateBoard(move->getFrom(), move->getTo(), BLACK);
+			window.clear();
+			manager.draw();
+			window.display();
+		}
+	}
 
 	dice->setState(ROLL);
 	m_sepMoves.clear();
@@ -147,28 +158,22 @@ void Opponent::calcScoresOut(Move* move, Manager* manager,
 
 //-----------------------------------------------------------------------------
 
-std::vector<Move*> Opponent::chooseBestMove()
+std::vector<Move*> Opponent::chooseBestMove(std::pair<int, int> result)
 {
 	std::vector<Move*> bestMoves;
-	Move* maxSeqScoreMove = m_seqMoves[0].get(),
-		* maxSepScoreMove = m_sepMoves[0].get(),
-		* secMaxSepScoremove = m_sepMoves[0].get();
+	Move* maxSeqScoreMove = m_seqMoves[0].get();
+
+	std::pair<Move*, Move*> maxSepMoves = findBestSepMoves(result);
 
 	for (auto& seqMove : m_seqMoves)
 		if (seqMove->getScore() > maxSeqScoreMove->getScore())
 			maxSeqScoreMove = seqMove.get();
 
-	for (auto& sepMove : m_sepMoves)
-		if (sepMove->getScore() > maxSepScoreMove->getScore()) {
-			secMaxSepScoremove = maxSepScoreMove;
-			maxSepScoreMove = sepMove.get();
-		}
-
-	if (maxSeqScoreMove->getScore() > maxSepScoreMove->getScore() + secMaxSepScoremove->getScore())
+	if (maxSeqScoreMove->getScore() > maxSepMoves.first->getScore() + maxSepMoves.second->getScore())
 		bestMoves.push_back(maxSeqScoreMove);
 	else {
-		bestMoves.push_back(maxSepScoreMove);
-		bestMoves.push_back(secMaxSepScoremove);
+		bestMoves.push_back(maxSepMoves.first);
+		bestMoves.push_back(maxSepMoves.second);
 	}
 	return bestMoves;
 }
@@ -180,7 +185,7 @@ bool Opponent::isEatable(Manager* manager, int point_i)
 	float prob = 0;
 	int dice_value = 1;
 
-	for (int i = point_i ; i < NUM_OF_POINTS && i < i + NUM_OF_OPTIONS; i++) {
+	for (int i = point_i + 1; i < NUM_OF_POINTS && dice_value <= NUM_OF_OPTIONS; i++) {
 		if (manager->getPoint(i)->getColor() == WHITE) {
 			switch (dice_value)
 			{
@@ -230,4 +235,33 @@ bool Opponent::isEatable(Manager* manager, int point_i)
 	if(prob > PROB_LIMIT)
 		return true;
 	return false;
+}
+
+//-----------------------------------------------------------------------------
+
+std::pair<Move*, Move*> Opponent::findBestSepMoves(std::pair<int, int> result)
+{
+	Move* maxScoreFirst = nullptr, * maxScoreSecond = maxScoreFirst;
+	if (result.first != result.second) { //not double
+		for (auto& sepMove : m_sepMoves) {
+			if (sepMove.get()->getTo() - sepMove.get()->getFrom() == result.first) {
+				if (maxScoreFirst == nullptr || sepMove.get()->getScore() > maxScoreFirst->getScore())
+					maxScoreFirst = sepMove.get();
+			}
+			else if (maxScoreSecond == nullptr || sepMove.get()->getScore() > maxScoreSecond->getScore())
+				maxScoreSecond = sepMove.get();
+		}
+	}
+	else { //  result is double
+		for (auto& sepMove : m_sepMoves)
+			if (maxScoreFirst == nullptr || sepMove.get()->getScore() >= maxScoreFirst->getScore()) {
+				maxScoreSecond = maxScoreFirst;
+				maxScoreFirst = sepMove.get();
+			}
+	}
+	
+	if (m_sepMoves.size() == 1)
+		maxScoreSecond = nullptr;
+
+	return std::pair<Move*, Move*>(maxScoreFirst, maxScoreSecond);
 }

@@ -19,8 +19,9 @@ private:
 	void calcScores(std::vector<std::unique_ptr<Move>>&, Manager*);
 	void calcScoresHome(Move*, Manager*, std::array<int, NUM_OF_POINTS>);
 	void calcScoresOut(Move*, Manager*, std::array<int, NUM_OF_POINTS>);
-	std::vector<Move*> chooseBestMove();
+	std::vector<Move*> chooseBestMove(std::pair<int, int>);
 	bool isEatable(Manager*, int);
+	std::pair<Move*, Move*> findBestSepMoves(std::pair<int, int>);
 };
 
 

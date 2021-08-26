@@ -8,6 +8,7 @@ enum DIRECTION { RIGHT, LEFT};
 constexpr auto FRAME_LIMIT = 60;
 constexpr auto NUM_OF_POINTS = 24;
 constexpr auto NO_POINT_CLICKED = -1;
+constexpr auto THINKING_TIME = 1000;
 
 //dice:
 constexpr auto DICE_SIZE = 40;

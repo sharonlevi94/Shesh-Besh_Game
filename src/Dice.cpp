@@ -64,8 +64,8 @@ std::pair<int, int> Dice::roll()
 	//state will change in the turns functions
 	switch (m_state) {
 	case PLAY:
-		m_rollResult.first.setPosition({ HOME_LEFT,BUTTON_POS_Y });
-		m_rollResult.second.setPosition({ HOME_LEFT + 50,  BUTTON_POS_Y });
+		m_rollResult.first.setPosition({ HOME_LEFT + DIFF * 3,BUTTON_POS_Y });
+		m_rollResult.second.setPosition({ HOME_LEFT + DIFF * 3 + 50,  BUTTON_POS_Y });
 		break;
 	case AI_TURN:
 		m_rollResult.first.setPosition({ LEFT_CORNER + DIFF * 3,BUTTON_POS_Y });
