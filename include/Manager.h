@@ -19,7 +19,7 @@ public:
 	void draw();
 	int getPointContainsClick(const sf::Vector2f&);
 	Point* getPoint(int)const;
-	void movePlayer(int, std::pair<int, int>&);
+	void movePlayer(int, const std::pair<int, int>&);
 	bool isMovePossible(int, int, DIRECTION);
 	void updateBoard(int, int, PLAYER_COLOR);
 	//========================= private section ==============================

@@ -18,13 +18,10 @@ Player::Player(PLAYER_COLOR color)
 
 void Player::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 {
-	int diceValue=0;
 	dice->setState(PLAY);
-	auto diceResult = dice->roll();
-	if (diceResult.first == diceResult.second) {
+	dice->roll();
+	if (dice->getResult().first == dice->getResult().second)
 		dice->setDouble(true);
-		diceValue = diceResult.first;
-	}
 	
 	while (dice->getState() == PLAY) {
 		for (auto event = sf::Event{}; window.waitEvent(event);) {
@@ -34,14 +31,11 @@ void Player::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 			if (event.type == sf::Event::MouseButtonPressed) {
 				int pointClicked = manager.getPointContainsClick(window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y }));
 				if (pointClicked != NO_POINT_CLICKED) {
-					if (diceResult.first > 0 || diceResult.second > 0)
-						manager.movePlayer(pointClicked, diceResult);
-					if (diceResult.first == 0 && diceResult.second == 0) {
-						if (dice->isDouble()) {
-							dice->setDouble(false);
-							diceResult.first = diceValue;
-							diceResult.second = diceValue;
-						}
+					if (dice->getResult().first > 0 || dice->getResult().second > 0)
+						manager.movePlayer(pointClicked, dice->getResult());
+					if (dice->getResult().first == 0 && dice->getResult().second == 0) {
+						if (dice->isDouble()) 
+							dice->resetResult();
 						else {
 							dice->setState(DONE);
 							break;

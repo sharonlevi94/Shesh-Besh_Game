@@ -62,14 +62,14 @@ void Dice::mousePassOnButton(sf::Vector2f mousePos)
 
 //-----------------------------------------------------------------------------
 
-std::pair<int, int> Dice::roll()
+void Dice::roll()
 {
 	Music::instance().playSound(ROLL_SOUND);
-	std::pair<int, int> diceResult;
-	diceResult.first = rand() % 6 + 1;
-	diceResult.second = rand() % 6 + 1;
-	m_rollResult.first.setTexture(&Textures::instance().getTexture(diceResult.first+1));
-	m_rollResult.second.setTexture(&Textures::instance().getTexture(diceResult.second+1));
+
+	m_numsResult.first = rand() % 6 + 1;
+	m_numsResult.second = rand() % 6 + 1;
+	m_rollResult.first.setTexture(&Textures::instance().getTexture(m_numsResult.first+1));
+	m_rollResult.second.setTexture(&Textures::instance().getTexture(m_numsResult.second+1));
 
 	//state will change in the turns functions
 	switch (m_state) {
@@ -85,7 +85,6 @@ std::pair<int, int> Dice::roll()
 		m_rollResult.first.setPosition({ HOME_LEFT,BUTTON_POS_Y });
 		m_rollResult.second.setPosition({ LEFT_CORNER + DIFF * 5 ,  BUTTON_POS_Y });
 	}
-	return diceResult;
 }
 
 //-----------------------------------------------------------------------------
@@ -100,6 +99,11 @@ void Dice::setState(DICE_STATE new_state)
 DICE_STATE Dice::getState() const
 {
 	return m_state;
+}
+
+std::pair<int, int> Dice::getResult() const
+{
+	return m_numsResult;
 }
 
 //-----------------------------------------------------------------------------
@@ -121,6 +125,7 @@ bool Dice::isClickedOn(sf::Vector2f pos)
 void Dice::setDouble(bool is_double)
 {
 	m_isDouble = is_double;
+	m_doubleValue = m_numsResult.first;
 }
 
 //-----------------------------------------------------------------------------
@@ -132,10 +137,23 @@ bool Dice::isDouble() const
 
 //-----------------------------------------------------------------------------
 
-void Dice::updateResult(int played, std::pair<int, int>& result)
+void Dice::updateResult(int played)
 {
-	if (played == result.first)
-		result.first = 0;
-	else
-		result.second = 0;
+	if (played > 6) {
+		m_numsResult.first = 0;
+		m_numsResult.second = 0;
+	}
+	else {
+		if (played == m_numsResult.first)
+			m_numsResult.first = 0;
+		else
+			m_numsResult.second = 0;
+	}
+}
+
+void Dice::resetResult()
+{
+	m_isDouble = false;
+	m_numsResult.first = m_doubleValue;
+	m_numsResult.second = m_doubleValue;
 }

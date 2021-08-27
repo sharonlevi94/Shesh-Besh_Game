@@ -240,10 +240,10 @@ void Manager::eatChecker(Checker* checker)
 void Manager::firstRoll()
 {
 	m_dice.setState(START);
-	std::pair<int, int> diceResult = m_dice.roll();
-	while (diceResult.first == diceResult.second)
-		diceResult = m_dice.roll();
-	if (diceResult.first > diceResult.second)
+	m_dice.roll();
+	while (m_dice.getResult().first == m_dice.getResult().second)
+		m_dice.roll();
+	if (m_dice.getResult().first > m_dice.getResult().second)
 		m_dice.setState(ROLL);
 	else
 		m_dice.setState(DONE); 
@@ -251,7 +251,7 @@ void Manager::firstRoll()
 
 //=============================================================================
 
-void Manager::movePlayer(int fromPoint, std::pair<int, int>& diceResult)
+void Manager::movePlayer(int fromPoint, const std::pair<int, int>& diceResult)
 {
 	int maxValue = std::max(diceResult.first, diceResult.second);
 	int minValue = std::min(diceResult.first, diceResult.second);
@@ -267,5 +267,5 @@ void Manager::movePlayer(int fromPoint, std::pair<int, int>& diceResult)
 		return;
 	}
 	updateBoard(fromPoint, fromPoint - step, WHITE);
-	m_dice.updateResult(step, diceResult);
+	m_dice.updateResult(step);
 }

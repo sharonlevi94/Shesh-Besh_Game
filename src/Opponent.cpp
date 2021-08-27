@@ -23,30 +23,34 @@ Opponent::Opponent(PLAYER_COLOR color)
 
 void Opponent::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 {
-	auto result = dice->roll();
-
+	dice->roll();
+	if (dice->getResult().first == dice->getResult().second)
+		dice->setDouble(true);
 	window.clear();
 	manager.draw();
 	window.display();
 
-	generateMoves(result, &manager);
+	while (dice->getResult().first > 0 || dice->getResult().second > 0) {
+		generateMoves(dice->getResult(), &manager);
 
-	if (m_sepMoves.size() > 0 && m_seqMoves.size() > 0) {
 		calcScores(m_sepMoves, &manager);
 		calcScores(m_seqMoves, &manager);
 
-		auto chosenMoves = chooseBestMove(result);
+		auto chosenMoves = chooseBestMove(dice->getResult());
 
 		for (auto& move : chosenMoves) {
 			Sleep(THINKING_TIME);
-			if(move != nullptr)
+			if (move != nullptr) {
 				manager.updateBoard(move->getFrom(), move->getTo(), BLACK);
-			window.clear();
-			manager.draw();
-			window.display();
+				dice->updateResult(move->getTo() - move->getFrom());
+				window.clear();
+				manager.draw();
+				window.display();
+			}
 		}
+		if (dice->isDouble()) 
+			dice->resetResult();
 	}
-
 	dice->setState(ROLL);
 	m_sepMoves.clear();
 	m_seqMoves.clear();
@@ -54,7 +58,7 @@ void Opponent::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 
 //-----------------------------------------------------------------------------
 
-void Opponent::generateMoves(std::pair<int, int> result, Manager* manager) {
+void Opponent::generateMoves(const std::pair<int, int>& result, Manager* manager) {
 	bool both = false;
 	for (int i = 0 ; i < NUM_OF_POINTS; i++) {
 		if (manager->getPoint(i)->getColor() == BLACK) {
@@ -157,7 +161,7 @@ void Opponent::calcScoresOut(Move* move, Manager* manager,
 
 //-----------------------------------------------------------------------------
 
-std::vector<Move*> Opponent::chooseBestMove(std::pair<int, int> result)
+std::vector<Move*> Opponent::chooseBestMove(const std::pair<int, int>& result)
 {
 	std::vector<Move*> bestMoves;
 	Move* maxSeqScoreMove = m_seqMoves[0].get();
@@ -238,7 +242,7 @@ bool Opponent::isEatable(Manager* manager, int point_i)
 
 //-----------------------------------------------------------------------------
 
-std::pair<Move*, Move*> Opponent::findBestSepMoves(std::pair<int, int> result)
+std::pair<Move*, Move*> Opponent::findBestSepMoves(const std::pair<int, int>& result)
 {
 	Move* maxScoreFirst = nullptr, * maxScoreSecond = maxScoreFirst;
 	if (result.first != result.second) { //not double
