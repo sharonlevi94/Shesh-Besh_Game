@@ -2,7 +2,6 @@
 #include "Manager.h"
 #include <array>
 #include <algorithm>
-#include <iostream>
 #include <Windows.h>
 //-----------------------------------------------------------------------------
 
@@ -24,7 +23,7 @@ Opponent::Opponent(PLAYER_COLOR color)
 
 void Opponent::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 {
-	std::pair<int, int> result = dice->roll();
+	auto result = dice->roll();
 
 	window.clear();
 	manager.draw();
@@ -36,7 +35,7 @@ void Opponent::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 		calcScores(m_sepMoves, &manager);
 		calcScores(m_seqMoves, &manager);
 
-		std::vector<Move*> chosenMoves = chooseBestMove(result);
+		auto chosenMoves = chooseBestMove(result);
 
 		for (auto& move : chosenMoves) {
 			Sleep(THINKING_TIME);
@@ -163,7 +162,7 @@ std::vector<Move*> Opponent::chooseBestMove(std::pair<int, int> result)
 	std::vector<Move*> bestMoves;
 	Move* maxSeqScoreMove = m_seqMoves[0].get();
 
-	std::pair<Move*, Move*> maxSepMoves = findBestSepMoves(result);
+	auto maxSepMoves = findBestSepMoves(result);
 
 	for (auto& seqMove : m_seqMoves)
 		if (seqMove->getScore() > maxSeqScoreMove->getScore())

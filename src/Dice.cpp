@@ -1,6 +1,9 @@
 #include "Dice.h"
 #include "Macros.h"
 #include "Textures.h"
+#include "Music.h"
+
+//-----------------------------------------------------------------------------
 
 Dice::Dice()
 {
@@ -21,6 +24,8 @@ Dice::Dice()
 	m_rollResult.first.setSize({ DICE_SIZE,DICE_SIZE });
 	m_rollResult.second.setSize({ DICE_SIZE,DICE_SIZE });
 }
+
+//-----------------------------------------------------------------------------
 
 void Dice::draw(sf::RenderWindow& window)
 {
@@ -45,6 +50,8 @@ void Dice::draw(sf::RenderWindow& window)
 	}
 }
 
+//-----------------------------------------------------------------------------
+
 void Dice::mousePassOnButton(sf::Vector2f mousePos)
 {
 	if(m_rollButton.getGlobalBounds().contains(mousePos))
@@ -53,8 +60,11 @@ void Dice::mousePassOnButton(sf::Vector2f mousePos)
 		m_rollButton.setFillColor(sf::Color::White);
 }
 
+//-----------------------------------------------------------------------------
+
 std::pair<int, int> Dice::roll()
 {
+	Music::instance().playSound(ROLL_SOUND);
 	std::pair<int, int> diceResult;
 	diceResult.first = rand() % 6 + 1;
 	diceResult.second = rand() % 6 + 1;
@@ -78,15 +88,21 @@ std::pair<int, int> Dice::roll()
 	return diceResult;
 }
 
+//-----------------------------------------------------------------------------
+
 void Dice::setState(DICE_STATE new_state)
 {
 	m_state = new_state;
 }
 
+//-----------------------------------------------------------------------------
+
 DICE_STATE Dice::getState() const
 {
 	return m_state;
 }
+
+//-----------------------------------------------------------------------------
 
 bool Dice::isClickedOn(sf::Vector2f pos)
 {
@@ -100,15 +116,21 @@ bool Dice::isClickedOn(sf::Vector2f pos)
 	}
 }
 
+//-----------------------------------------------------------------------------
+
 void Dice::setDouble(bool is_double)
 {
 	m_isDouble = is_double;
 }
 
+//-----------------------------------------------------------------------------
+
 bool Dice::isDouble() const
 {
 	return m_isDouble;
 }
+
+//-----------------------------------------------------------------------------
 
 void Dice::updateResult(int played, std::pair<int, int>& result)
 {

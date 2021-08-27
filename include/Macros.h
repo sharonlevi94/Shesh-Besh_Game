@@ -3,12 +3,28 @@
 enum PLAYER_COLOR { WHITE, BLACK, NO_COLOR };
 enum DICE_STATE { ROLL, PLAY, AI_TURN, DONE, START, ROLL_START};
 enum DIRECTION { RIGHT, LEFT};
+enum SOUND
+{
+	MENU,
+	ROLL_SOUND,
+	EAT,
+	WONGAME,
+	LOSTGAME,
+	TIMEEND,
+	BUTTON,
+	PLAY_STEP
+};
+
+//-----------------------------------------------------------------------------
 
 //general:
 constexpr auto FRAME_LIMIT = 60;
 constexpr auto NUM_OF_POINTS = 24;
 constexpr auto NO_POINT_CLICKED = -1;
 constexpr auto THINKING_TIME = 1000;
+constexpr auto MUSIC_VOLUME = 50;
+
+//-----------------------------------------------------------------------------
 
 //dice:
 constexpr auto DICE_SIZE = 40;
@@ -19,12 +35,16 @@ constexpr auto NUM4 = 5;
 constexpr auto NUM5 = 6;
 constexpr auto NUM6 = 7;
 
+//-----------------------------------------------------------------------------
+
 //buttons:
 constexpr auto BUTTON_POS_X = 1390;
 constexpr auto BUTTON_POS_Y = 375;
 constexpr auto CHAR_SIZE = 45;
 
-//paths:
+//-----------------------------------------------------------------------------
+
+//texture files paths:
 constexpr auto BOARD_PATH = "Board.png";
 constexpr auto BLACK_PATH = "black.png";
 constexpr auto WHITE_PATH = "white.png";
@@ -35,18 +55,31 @@ constexpr auto NUM4_PATH = "dice_numbers (4).png";
 constexpr auto NUM5_PATH = "dice_numbers (5).png";
 constexpr auto NUM6_PATH = "dice_numbers (6).png";
 
+//sound files paths:
+constexpr auto ROLL_SOUND_PATH = "dice_throw.ogg";
+constexpr auto BUTTON_SOUND_PATH = "button_click.ogg";
+constexpr auto PLAY_SOUND_PATH = "play_step.ogg";
+
+//-----------------------------------------------------------------------------
+
 //boards backgrounds:
 constexpr auto BOARD1 = 1;
 constexpr auto BOARD2 = 2;
 constexpr auto BOARD3 = 3;
 constexpr auto BOARD4 = 4;
 
+//-----------------------------------------------------------------------------
+
 //screen dimensions:
 constexpr auto WIN_WIDTH = 1600;
 constexpr auto WIN_HEIGHT = 800;
 
+//-----------------------------------------------------------------------------
+
 //checker;
 constexpr auto RADIUS = 30;
+
+//-----------------------------------------------------------------------------
 
 //points:
 constexpr auto TOP = 40;
@@ -60,11 +93,15 @@ constexpr auto POINT_AREA_X = RADIUS * 2;
 constexpr auto POINT_AREA_Y = RADIUS * 10;
 constexpr auto AREA_POS_BOT = BOTTOM - (RADIUS * 8);
 
+//-----------------------------------------------------------------------------
+
 //board:
 constexpr auto BOARD_LEN = 24;
 constexpr auto AI_HOME = 18;
 constexpr auto PLAYER_HOME = 5;
 constexpr auto BLOCK = 2;
+
+//-----------------------------------------------------------------------------
 
 //scores:
 constexpr auto OPEN_HOME_NOT_FREE = 0;
@@ -80,6 +117,8 @@ constexpr auto NBLOCK_OUT = 9;
 constexpr auto NBLOCK_HOME = 10;
 constexpr auto EAT_BLOCK_OUT = 11;
 constexpr auto EAT_BLOCK_HOME = 12;
+
+//-----------------------------------------------------------------------------
 
 //probabilities
 constexpr auto NUM_OF_OPTIONS = 12;

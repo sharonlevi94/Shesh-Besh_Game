@@ -186,6 +186,15 @@
 		},
 		{
 			"path" : "resources/CooperBlackStd.otf"
+		},
+		{
+			"path" : "resources/dice_throw.ogg"
+		},
+		{
+			"path" : "resources/button_click.ogg"
+		},
+		{
+			"path" : "resources/play_step.ogg"
 		}
 	],
 	"kind" : "cmakeFiles",

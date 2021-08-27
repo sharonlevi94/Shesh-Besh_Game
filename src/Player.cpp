@@ -20,7 +20,7 @@ void Player::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 {
 	int diceValue=0;
 	dice->setState(PLAY);
-	std::pair<int, int> diceResult = dice->roll();
+	auto diceResult = dice->roll();
 	if (diceResult.first == diceResult.second) {
 		dice->setDouble(true);
 		diceValue = diceResult.first;

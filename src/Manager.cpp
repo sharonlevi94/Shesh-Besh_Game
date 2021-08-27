@@ -1,9 +1,11 @@
 #include "Manager.h"
 #include "Textures.h"
+#include "Music.h"
 #include "Macros.h"
 #include <iostream>
 #include <memory>
 #include <algorithm>
+#include <Windows.h>
 //=============================================================================
 
 Manager::Manager()
@@ -16,7 +18,9 @@ Manager::Manager()
 	m_background.setPosition({ 0,0 });
 	//m_points.resize(NUM_OF_POINTS);
 }
+
 //=============================================================================
+
 void Manager::run()
 {
 	initializeBoard();
@@ -43,6 +47,8 @@ void Manager::run()
 					break;
 				case DONE:
 					if (m_dice.isClickedOn(m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y }))) {
+						Music::instance().playSound(BUTTON);
+						Sleep(THINKING_TIME);
 						m_dice.setState(AI_TURN);
 						m_AI.play(&m_dice, m_window, *this);
 					}
@@ -52,12 +58,16 @@ void Manager::run()
 		}
 	}
 }
+
 //=============================================================================
+
 const sf::Texture& Manager::runBoardScreen()
 {
 	return Textures::instance().getBackground(BOARD1);
 }
+
 //=============================================================================
+
 void Manager::initializeBoard()
 {
 	m_background.setTexture(&runBoardScreen());
@@ -67,7 +77,9 @@ void Manager::initializeBoard()
 	setPoints();
 	setCheckers();
 }
+
 //=============================================================================
+
 void Manager::setPoints()
 {
 	for (int i = 0; i < NUM_OF_POINTS/2; i++) {
@@ -87,6 +99,7 @@ void Manager::setPoints()
 				sf::Vector2f(HOME_LEFT + DIFF * (i % 6), TOP)));
 	}
 }
+
 //=============================================================================
 void Manager::setCheckers()
 {
@@ -94,6 +107,7 @@ void Manager::setCheckers()
 	setAICheckers();
 }
 //=============================================================================
+
 void Manager::setPlayerCheckers()
 {
 	//set player's checker to eact point:
@@ -115,7 +129,9 @@ void Manager::setPlayerCheckers()
 		m_points[23].get()->add(m_player.getChecker(i));
 	}
 }
+
 //=============================================================================
+
 void Manager::setAICheckers()
 {
 	//set player's checker to eact point:
@@ -138,7 +154,9 @@ void Manager::setAICheckers()
 	}
 
 }
+
 //=============================================================================
+
 void Manager::draw()
 {
 	m_window.draw(m_background);
@@ -146,7 +164,9 @@ void Manager::draw()
 	for (auto& point : m_points)
 		point.get()->draw(m_window);
 }
+
 //=============================================================================
+
 int Manager::getPointContainsClick(const sf::Vector2f& clickLocation)
 {
 	for (int i = 0; i < m_points.size(); i++)
@@ -154,12 +174,16 @@ int Manager::getPointContainsClick(const sf::Vector2f& clickLocation)
 			return i;
 	return -1;
 }
+
 //=============================================================================
+
 Point* Manager::getPoint(int wantedIndex) const
 {
 	return m_points[wantedIndex].get();
 }
+
 //=============================================================================
+
 bool Manager::isMovePossible(int source, int step, DIRECTION direction)
 {
 	if (step == 0)
@@ -183,11 +207,16 @@ bool Manager::isMovePossible(int source, int step, DIRECTION direction)
 	}
 	return false;
 }
+
 //=============================================================================
+
 void Manager::updateBoard(int fromPoint, int toPoint, PLAYER_COLOR color)
 {
+	Music::instance().playSound(PLAY_STEP);
 	Checker* p2Checker = m_points[fromPoint].get()->getChecker(m_points[fromPoint].get()->getCheckersNumber() - 1);
+
 	m_points[fromPoint].get()->del(p2Checker);
+
 	if(m_points[fromPoint].get()->getCheckersNumber() == 0)
 		m_points[fromPoint].get()->setColor(NO_COLOR);
 
@@ -199,6 +228,7 @@ void Manager::updateBoard(int fromPoint, int toPoint, PLAYER_COLOR color)
 	m_points[toPoint].get()->add(p2Checker);
 	m_points[toPoint].get()->setColor(color);
 }
+
 //=============================================================================
 
 void Manager::eatChecker(Checker* checker)
