@@ -164,19 +164,52 @@ void Opponent::calcScoresOut(Move* move, Manager* manager,
 std::vector<Move*> Opponent::chooseBestMove(const std::pair<int, int>& result)
 {
 	std::vector<Move*> bestMoves;
-	Move* maxSeqScoreMove = m_seqMoves[0].get();
+	Move* maxSeqScoreMove = nullptr;
 
 	auto maxSepMoves = findBestSepMoves(result);
 
-	for (auto& seqMove : m_seqMoves)
-		if (seqMove->getScore() > maxSeqScoreMove->getScore())
-			maxSeqScoreMove = seqMove.get();
+	if (m_seqMoves.size() > 0) {
+		maxSeqScoreMove = m_seqMoves[0].get();
+		for (auto& seqMove : m_seqMoves)
+			if (seqMove->getScore() > maxSeqScoreMove->getScore())
+				maxSeqScoreMove = seqMove.get();
+	}
 
-	if (maxSeqScoreMove->getScore() > maxSepMoves.first->getScore() + maxSepMoves.second->getScore())
-		bestMoves.push_back(maxSeqScoreMove);
+	if (maxSeqScoreMove != nullptr) {
+		if (maxSepMoves.first != nullptr and maxSepMoves.second != nullptr) {
+			if (maxSeqScoreMove->getScore() > maxSepMoves.first->getScore() + maxSepMoves.second->getScore())
+				bestMoves.push_back(maxSeqScoreMove);
+			else {
+				bestMoves.push_back(maxSepMoves.first);
+				bestMoves.push_back(maxSepMoves.second);
+			}
+		}
+		else {
+			if (maxSepMoves.first == nullptr) {
+				if (maxSeqScoreMove->getScore() > maxSepMoves.second->getScore())
+					bestMoves.push_back(maxSeqScoreMove);
+				else
+					bestMoves.push_back(maxSepMoves.second);
+			}
+			else {
+				if (maxSeqScoreMove->getScore() > maxSepMoves.first->getScore())
+					bestMoves.push_back(maxSeqScoreMove);
+				else
+					bestMoves.push_back(maxSepMoves.first);
+			}
+		}
+	}
 	else {
-		bestMoves.push_back(maxSepMoves.first);
-		bestMoves.push_back(maxSepMoves.second);
+		if (maxSepMoves.first != nullptr and maxSepMoves.second != nullptr) {
+			bestMoves.push_back(maxSepMoves.first);
+			bestMoves.push_back(maxSepMoves.second);
+		}
+		else {
+			if (maxSepMoves.first > maxSepMoves.second)
+				bestMoves.push_back(maxSepMoves.first);
+			else
+				bestMoves.push_back(maxSepMoves.second);
+		}
 	}
 	return bestMoves;
 }
@@ -265,6 +298,23 @@ std::pair<Move*, Move*> Opponent::findBestSepMoves(const std::pair<int, int>& re
 	
 	if (m_sepMoves.size() == 1)
 		maxScoreSecond = nullptr;
+	if (m_sepMoves.size() == 0) {
+		maxScoreFirst = nullptr;
+		maxScoreSecond = nullptr;
+	}
 
 	return std::pair<Move*, Move*>(maxScoreFirst, maxScoreSecond);
+}
+
+//-----------------------------------------------------------------------------
+
+bool Opponent::allPassed(Manager* manager)
+{
+	int num_of_chckrs_in_home = 0;
+	for (int i = AI_HOME; i < NUM_OF_POINTS; i++)
+		num_of_chckrs_in_home += manager->getPoint(i)->getCheckersNumber();
+
+	if (num_of_chckrs_in_home == getNumChkrsLeft())
+		return true;
+	return false;
 }

@@ -163,15 +163,25 @@ void Manager::draw()
 	m_dice.draw(m_window);
 	for (auto& point : m_points)
 		point.get()->draw(m_window);
+	for (auto& checker : m_lockedCheckers)
+		checker->draw(m_window);
 }
 
 //=============================================================================
 
 int Manager::getPointContainsClick(const sf::Vector2f& clickLocation)
 {
-	for (int i = 0; i < m_points.size(); i++)
-		if (m_points[i].get()->getBounds().contains(clickLocation))
-			return i;
+	if (m_player.isLocked()) {
+		for (auto& checker : m_lockedCheckers)
+			if (checker->isContainsClick(clickLocation))
+				return LOCK;
+	}
+	else {
+		for (int i = 0; i < m_points.size(); i++)
+			if (m_points[i].get()->getBounds().contains(clickLocation))
+				return i;
+	}
+	
 	return -1;
 }
 
@@ -191,16 +201,30 @@ bool Manager::isMovePossible(int source, int step, DIRECTION direction)
 
 	switch (direction) {
 	case RIGHT:
-		if (source - step >= 0)
-			if (m_points[source - step].get()->getColor() == m_points[source].get()->getColor() ||
-				m_points[source - step].get()->getCheckersNumber() < BLOCK)
+		if (m_player.isLocked()) {
+			if (m_points[step - 1].get()->getColor() == WHITE ||
+				m_points[step - 1].get()->getCheckersNumber() < BLOCK)
 				return true;
+		}
+		else {
+			if (source - step >= 0)
+				if (m_points[source - step].get()->getColor() == WHITE ||
+					m_points[source - step].get()->getCheckersNumber() < BLOCK)
+					return true;
+		}
 		break;
 	case LEFT:
-		if (source + step < NUM_OF_POINTS)
-			if (m_points[source + step].get()->getColor() == m_points[source].get()->getColor() ||
-				m_points[source + step].get()->getCheckersNumber() < BLOCK)
+		if (m_AI.isLocked()) {
+			if (m_points[NUM_OF_POINTS-step].get()->getColor() == BLACK ||
+				m_points[NUM_OF_POINTS - step].get()->getCheckersNumber() < BLOCK)
 				return true;
+		}
+		else {
+			if (source + step < NUM_OF_POINTS)
+				if (m_points[source + step].get()->getColor() == BLACK ||
+					m_points[source + step].get()->getCheckersNumber() < BLOCK)
+					return true;
+		}
 		break;
 	default: 
 		return false;
@@ -213,18 +237,18 @@ bool Manager::isMovePossible(int source, int step, DIRECTION direction)
 void Manager::updateBoard(int fromPoint, int toPoint, PLAYER_COLOR color)
 {
 	Music::instance().playSound(PLAY_STEP);
+	
 	Checker* p2Checker = m_points[fromPoint].get()->getChecker(m_points[fromPoint].get()->getCheckersNumber() - 1);
-
 	m_points[fromPoint].get()->del(p2Checker);
-
 	if(m_points[fromPoint].get()->getCheckersNumber() == 0)
 		m_points[fromPoint].get()->setColor(NO_COLOR);
 
-	if (m_points[toPoint].get()->getCheckersNumber() == 1)
+
+	if (m_points[toPoint].get()->getCheckersNumber() == 1 and m_points[toPoint].get()->getColor() != color) {
 		eatChecker(m_points[toPoint].get()->getChecker(0));
-
+		m_points[toPoint].get()->del(m_points[toPoint].get()->getChecker(0));
+	}
 	p2Checker->updatePos(m_points[toPoint].get()->getPosition(), m_points[toPoint].get()->getCheckersNumber(), toPoint);
-
 	m_points[toPoint].get()->add(p2Checker);
 	m_points[toPoint].get()->setColor(color);
 }
@@ -233,6 +257,13 @@ void Manager::updateBoard(int fromPoint, int toPoint, PLAYER_COLOR color)
 
 void Manager::eatChecker(Checker* checker)
 {
+	if (checker->getColor() == WHITE)
+		m_player.setLock(true);
+	else
+		m_AI.setLock(true);
+
+	checker->updatePos(sf::Vector2f(WIN_WIDTH / 2 - 30, WIN_HEIGHT / 2), m_lockedCheckers.size(), LOCK);
+	m_lockedCheckers.push_back(checker);
 }
 
 //=============================================================================
@@ -267,5 +298,6 @@ void Manager::movePlayer(int fromPoint, const std::pair<int, int>& diceResult)
 		return;
 	}
 	updateBoard(fromPoint, fromPoint - step, WHITE);
+
 	m_dice.updateResult(step);
 }

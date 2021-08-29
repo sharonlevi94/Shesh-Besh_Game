@@ -1,8 +1,24 @@
 #pragma once
 //enum:
-enum PLAYER_COLOR { WHITE, BLACK, NO_COLOR };
-enum DICE_STATE { ROLL, PLAY, AI_TURN, DONE, START, ROLL_START};
-enum DIRECTION { RIGHT, LEFT};
+enum PLAYER_COLOR
+{ 
+	WHITE,
+	BLACK,
+	NO_COLOR
+};
+enum DICE_STATE
+{ 
+	ROLL,
+	PLAY,
+	AI_TURN,
+	DONE,
+	START, ROLL_START
+};
+enum DIRECTION 
+{ 
+	RIGHT,
+	LEFT
+};
 enum SOUND
 {
 	MENU,
@@ -20,9 +36,11 @@ enum SOUND
 //general:
 constexpr auto FRAME_LIMIT = 60;
 constexpr auto NUM_OF_POINTS = 24;
+constexpr auto NUM_OF_CHECKERS = 15;
 constexpr auto NO_POINT_CLICKED = -1;
 constexpr auto THINKING_TIME = 1000;
 constexpr auto MUSIC_VOLUME = 50;
+constexpr auto LOCK = 30;
 
 //-----------------------------------------------------------------------------
 
@@ -120,9 +138,10 @@ constexpr auto EAT_BLOCK_HOME = 12;
 
 //-----------------------------------------------------------------------------
 
-//probabilities
+//probabilities:
 constexpr auto NUM_OF_OPTIONS = 12;
 constexpr auto PROB_LIMIT = 0.3;
+
 constexpr auto ONE = 0.305;
 constexpr auto TWO = 0.333;
 constexpr auto THREE = 0.361;

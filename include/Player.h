@@ -6,7 +6,7 @@ class Player: public Character
 public:
 	Player(PLAYER_COLOR=WHITE);
 	virtual void play(Dice*, sf::RenderWindow&, Manager&)override;
-
+	virtual bool allPassed(Manager*)override;
 private:
 	
 };

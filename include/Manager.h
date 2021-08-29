@@ -28,6 +28,7 @@ private:
 	sf::Clock m_gameClock;
 	sf::RectangleShape m_background;
 	std::vector <std::unique_ptr<Point>> m_points;
+	std::vector<Checker*> m_lockedCheckers;
 	Player m_player;
 	Opponent m_AI;
 	Dice m_dice;

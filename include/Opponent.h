@@ -10,6 +10,7 @@ class Opponent: public Character
 public:
 	Opponent(PLAYER_COLOR=BLACK);
 	virtual void play(Dice*, sf::RenderWindow&, Manager&)override;
+	virtual bool allPassed(Manager*)override;
 	
 private:
 	std::vector<std::unique_ptr<Move>> m_sepMoves;

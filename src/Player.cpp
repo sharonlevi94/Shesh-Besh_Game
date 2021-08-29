@@ -46,3 +46,14 @@ void Player::play(Dice* dice, sf::RenderWindow& window, Manager& manager)
 		}
 	}
 }
+
+bool Player::allPassed(Manager* manager)
+{
+	int num_of_chckrs_in_home = 0;
+	for (int i = 0; i <= PLAYER_HOME; i++) 
+		num_of_chckrs_in_home += manager->getPoint(i)->getCheckersNumber();
+	
+	if (num_of_chckrs_in_home == getNumChkrsLeft())
+		return true;
+	return false;
+}
