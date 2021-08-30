@@ -238,6 +238,7 @@ void Manager::updateBoard(int fromPoint, int toPoint, PLAYER_COLOR color)
 {
 	Music::instance().playSound(PLAY_STEP);
 	
+
 	Checker* p2Checker = m_points[fromPoint].get()->getChecker(m_points[fromPoint].get()->getCheckersNumber() - 1);
 	m_points[fromPoint].get()->del(p2Checker);
 	if(m_points[fromPoint].get()->getCheckersNumber() == 0)
